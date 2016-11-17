@@ -184,10 +184,15 @@ module.exports = function(grunt) {
     var config = this.data;
     var helpers = getConfig(config.helpers);
     var partials = getConfig(config.partials);
+    var configureHandlebars = config.configureHandlebars;
     var done = this.async();
 
     handlebarsPath = config.handlebars ? path.resolve(config.handlebars) : 'handlebars';
     handlebars = require(handlebarsPath);
+
+    if(undefined !== configureHandlebars && 'function' === typeof configureHandlebars){
+      configureHandlebars(handlebars);
+    }
 
     helpers.forEach(function(helper) {
       var fullPath = helper.replace(/\.[^/.]+$/, '');
